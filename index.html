@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RESET — Wireframe interactivo</title>
+  <meta name="description" content="Wireframe interactivo del sitio del festival RESET. Equipo: Santino Mosca Jacob, Rodrigo Masek y Facundo De Vichenzo.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="show-notes">
+
+<!--
+  WIREFRAME INTERACTIVO — RESET (festival gamer, 18, 19 y 20 de septiembre de 2026, CEC)
+  Equipo: Santino Mosca Jacob · Rodrigo Masek · Facundo De Vichenzo
+
+  Cómo está armado (pensado para pasarlo a Figma):
+  - Cada <section class="screen"> es una PANTALLA = un frame de Figma.
+  - Cada clase "c-…" es un COMPONENTE = un componente de Figma. Sus variantes
+    son los modificadores "c-…--…" y sus estados, las clases "is-…".
+  - El atributo data-component nombra el componente tal como iría en Figma.
+  - Todo lo que está entre corchetes [ ] es un PLACEHOLDER: una imagen, objeto
+    3D o gráfico que en el diseño final se reemplaza por el elemento real.
+  - Las etiquetas punteadas "NOTA" son anotaciones del wireframe: explican
+    interacciones que una pantalla quieta no muestra. Se apagan con el botón
+    "Anotaciones" del pie.
+-->
+
+<a class="skip-link" href="#main">Saltar al contenido</a>
+
+<!-- ================= HEADER (componente único con 3 variantes) ================= -->
+<header class="c-header" data-component="Header" data-variant="home">
+  <div class="c-header__bar l-container">
+    <a class="c-logo" href="#inicio" data-component="Logo" aria-label="RESET, ir al inicio">&lt;RESET&gt;</a>
+
+    <nav class="c-nav" aria-label="Secciones del inicio" data-component="Nav">
+      <ul>
+        <li><a href="#informacion" data-nav="informacion">Información</a></li>
+        <li><a href="#cronograma" data-nav="cronograma">Cronograma</a></li>
+      </ul>
+    </nav>
+
+    <div class="c-header__actions">
+      <!-- Sin sesión: "Iniciar sesión" · Con sesión: "Obtener ticket" + avatar (wireflow) -->
+      <a class="c-button c-button--primary c-button--sm" href="#login" data-auth="guest" data-component="Button/Primary">Iniciar sesión</a>
+      <a class="c-button c-button--primary c-button--sm" href="#paquetes" data-auth="user" data-action="get-ticket" data-component="Button/Primary">Obtener ticket</a>
+
+      <div class="c-avatar-menu" data-auth="user" data-component="AvatarMenu">
+        <button class="c-avatar" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="avatar-menu" data-avatar-toggle>
+          <span class="c-avatar__initials" data-user-initials>?</span>
+          <span class="visually-hidden">Abrir menú de tu cuenta</span>
+        </button>
+        <div class="c-menu" id="avatar-menu" hidden>
+          <p class="c-menu__who">Hola, <strong data-user-name>jugador</strong></p>
+          <a class="c-menu__item" href="#cuenta">Mi cuenta</a>
+          <a class="c-menu__item" href="#cuenta" data-scroll-to="mis-entradas">Mis entradas</a>
+          <button class="c-menu__item" type="button" data-action="logout">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Barra de nivel: avance de lectura del inicio (estado del sistema) -->
+  <div class="c-xpbar" aria-hidden="true" data-component="XPBar">
+    <div class="c-xpbar__fill" data-xp-fill></div>
+    <span class="c-xpbar__label" data-xp-label>Nivel 0</span>
+  </div>
+</header>
+
+<!-- Zona de avisos temporales (toasts). aria-live para lectores de pantalla -->
+<div class="c-toasts" aria-live="polite" aria-atomic="false" data-component="Toast"></div>
+
+<main id="main">
+
+<!-- ============================ PANTALLA: INICIO ============================ -->
+<section class="screen" id="screen-inicio" data-screen="inicio" aria-label="Inicio">
+
+  <!-- 1. Portada -->
+  <section class="home-section hero" id="portada" data-component="Section/Hero">
+    <div class="l-container hero__grid">
+      <div class="hero__text">
+        <p class="eyebrow">Festival gamer · Primera edición</p>
+        <h1 class="hero__title">Subí de nivel, adentro y afuera de la pantalla</h1>
+        <p class="hero__lead">Tres días de gaming, esports y bienestar donde cada descanso, cada paso y cada charla suman XP</p>
+        <ul class="hero__meta" aria-label="Datos del evento">
+          <li><span aria-hidden="true">▣</span> 18, 19 y 20 de septiembre de 2026</li>
+          <li><span aria-hidden="true">⌖</span> Centro de Convenciones Buenos Aires (CEC)</li>
+        </ul>
+        <div class="hero__actions">
+          <a class="c-button c-button--primary" href="#paquetes" data-action="get-ticket" data-component="Button/Primary">Obtener ticket</a>
+          <a class="c-button c-button--secondary" href="#cronograma" data-component="Button/Secondary">Ver cronograma</a>
+        </div>
+        <p class="wf-note">NOTA · Sin sesión, "Obtener ticket" lleva a Iniciar sesión (regla del wireflow)</p>
+      </div>
+
+      <div class="hero__media">
+        <div class="c-ph c-ph--hero" data-component="Placeholder/Image">
+          <span class="c-ph__label">[IMAGEN / VIDEO — ENTRADA AL SPAWN POINT]</span>
+        </div>
+        <div class="c-obj3d c-obj3d--float" data-parallax="0.35" data-component="Placeholder/3D">
+          <span class="c-obj3d__label">[OBJETO 3D — JOYSTICK]</span>
+        </div>
+        <p class="wf-note wf-note--overlay">NOTA · El joystick gira y se desplaza con el scroll</p>
+      </div>
+    </div>
+
+    <!-- Las 3 cajas debajo de la portada (wireflow) -->
+    <div class="l-container">
+      <ul class="facts" aria-label="RESET en números">
+        <li class="c-card c-card--fact" data-component="Card/Fact"><strong>3 días</strong><span>de experiencia inmersiva</span></li>
+        <li class="c-card c-card--fact" data-component="Card/Fact"><strong>6 zonas</strong><span>para jugar, moverte y descansar</span></li>
+        <li class="c-card c-card--fact" data-component="Card/Fact"><strong>30 000 gamers</strong><span>esperados en el CEC</span></li>
+      </ul>
+    </div>
+    <p class="scroll-hint" aria-hidden="true">Deslizá para seguir ↓</p>
+  </section>
+
+  <!-- 2. Qué es RESET -->
+  <section class="home-section" id="informacion" data-component="Section/About">
+    <div class="l-container two-col">
+      <div class="reveal">
+        <p class="eyebrow">Qué es RESET</p>
+        <h2>Un videojuego en la vida real</h2>
+        <p>RESET es un festival de cultura gamer armado con la lógica de un videojuego. Para ganar recompensas tenés que hacer lo que el juego de siempre no te pide: pararte, moverte, hidratarte, descansar la vista y jugar cara a cara</p>
+        <p>No es un evento para mirar: es un evento para jugar. Y la jugada más fuerte es aprender a controlar tu tiempo</p>
+      </div>
+      <ul class="pillars reveal" aria-label="Los 5 ejes de RESET">
+        <li class="c-card c-card--pillar" data-component="Card/Pillar"><span class="c-icon" aria-hidden="true">♡</span>Descanso</li>
+        <li class="c-card c-card--pillar" data-component="Card/Pillar"><span class="c-icon" aria-hidden="true">ϟ</span>Enfoque</li>
+        <li class="c-card c-card--pillar" data-component="Card/Pillar"><span class="c-icon" aria-hidden="true">◊</span>Hidratación</li>
+        <li class="c-card c-card--pillar" data-component="Card/Pillar"><span class="c-icon" aria-hidden="true">⚇</span>Comunidad</li>
+        <li class="c-card c-card--pillar" data-component="Card/Pillar"><span class="c-icon" aria-hidden="true">♛</span>Recompensas</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. Encuesta: scroll narrativo con objeto fijo -->
+  <section class="home-section home-section--dark" id="encuesta" data-component="Section/Scrollytelling">
+    <div class="l-container">
+      <p class="eyebrow">Lo que dijo la comunidad</p>
+      <h2>Le preguntamos a 56 gamers cómo juegan</h2>
+      <p class="section-lead">Resultados de la encuesta del equipo. Seguí bajando: el control se va quedando sin batería</p>
+      <p class="wf-note">NOTA · El control queda fijo mientras pasan los datos: rota y la batería baja en cada dato</p>
+    </div>
+
+    <div class="l-container story">
+      <div class="story__sticky" aria-hidden="true">
+        <div class="c-obj3d c-obj3d--story" data-story-object data-component="Placeholder/3D">
+          <span class="c-obj3d__label">[OBJETO 3D — CONTROL]</span>
+        </div>
+        <div class="c-battery" data-component="Battery">
+          <div class="c-battery__fill" data-story-battery></div>
+        </div>
+        <p class="story__state"><span data-story-count>1 / 5</span> · <span data-story-label>Batería 100 %</span></p>
+      </div>
+
+      <ol class="story__steps">
+        <li class="story__step is-active" data-step="0" data-battery="100" data-label="Batería 100 %">
+          <p class="stat">56</p>
+          <p class="stat__text">personas respondieron la encuesta. El 58,9 % tiene entre 16 y 21 años</p>
+          <div class="c-ph c-ph--chart"><span class="c-ph__label">[GRÁFICO — RANGO DE EDAD]</span></div>
+        </li>
+        <li class="story__step" data-step="1" data-battery="75" data-label="Batería 75 %">
+          <p class="stat">22,2 %</p>
+          <p class="stat__text">juega todos los días, y otro 33,3 % juega entre 3 y 5 días por semana</p>
+          <div class="c-ph c-ph--chart"><span class="c-ph__label">[GRÁFICO — DÍAS DE JUEGO POR SEMANA]</span></div>
+        </li>
+        <li class="story__step" data-step="2" data-battery="50" data-label="Batería 50 %">
+          <p class="stat">40 %</p>
+          <p class="stat__text">dejó de lado el estudio, el trabajo o a sus amigos por quedarse jugando</p>
+          <div class="c-ph c-ph--chart"><span class="c-ph__label">[GRÁFICO — ACTIVIDADES POSTERGADAS]</span></div>
+        </li>
+        <li class="story__step" data-step="3" data-battery="25" data-label="Batería 25 %">
+          <p class="stat">37,8 %</p>
+          <p class="stat__text">juega para escapar del estrés, aunque el 82,2 % dice que juega por diversión</p>
+          <div class="c-ph c-ph--chart"><span class="c-ph__label">[GRÁFICO — MOTIVACIONES]</span></div>
+        </li>
+        <li class="story__step" data-step="4" data-battery="8" data-label="Cooldown activado">
+          <p class="stat">Casi 18 %</p>
+          <p class="stat__text">siente irritabilidad o ansiedad cuando no puede jugar</p>
+          <div class="c-ph c-ph--chart"><span class="c-ph__label">[GRÁFICO — IRRITABILIDAD SIN JUGAR]</span></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4. Problemática -->
+  <section class="home-section" id="problematica" data-component="Section/Problem">
+    <div class="l-container">
+      <p class="eyebrow reveal">La problemática</p>
+      <h2 class="reveal">Cuando jugar deja de ser un juego</h2>
+      <p class="section-lead reveal">La adicción no es sólo falta de voluntad: los juegos están diseñados para que no quieras parar</p>
+      <div class="problem">
+        <ul class="cards-3">
+          <li class="c-card reveal" data-component="Card/Info">
+            <div class="c-ph c-ph--icon"><span class="c-ph__label">[ÍCONO]</span></div>
+            <h3>Recompensas que no paran</h3>
+            <p>Logros y premios al azar que te hacen volver por uno más</p>
+          </li>
+          <li class="c-card reveal" data-component="Card/Info">
+            <div class="c-ph c-ph--icon"><span class="c-ph__label">[ÍCONO]</span></div>
+            <h3>Sin pausas naturales</h3>
+            <p>En los juegos en línea no hay un final de partida que te avise que es hora de cortar</p>
+          </li>
+          <li class="c-card reveal" data-component="Card/Info">
+            <div class="c-ph c-ph--icon"><span class="c-ph__label">[ÍCONO]</span></div>
+            <h3>Menos encuentro cara a cara</h3>
+            <p>La pertenencia se mueve a la pantalla y el mundo real queda en pausa</p>
+          </li>
+        </ul>
+        <div class="problem__answer reveal">
+          <div class="c-obj3d c-obj3d--small" data-parallax="0.15" data-component="Placeholder/3D">
+            <span class="c-obj3d__label">[OBJETO 3D — RELOJ DE ARENA]</span>
+          </div>
+          <div>
+            <h3>Lo que propone RESET</h3>
+            <ul class="check-list">
+              <li>Cada 30 minutos de juego, un descanso activo obligatorio</li>
+              <li>Juego cooperativo presencial, sin conexión a internet</li>
+              <li>Descansar suma puntos: el bienestar es la mejor estrategia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Zonas: pestañas -->
+  <section class="home-section home-section--alt" id="zonas" data-component="Section/Zones">
+    <div class="l-container">
+      <p class="eyebrow">El mapa del evento</p>
+      <h2>Seis zonas, un recorrido</h2>
+      <p class="section-lead">El CEC está bajo tierra: aislado del ruido y con la luz controlada</p>
+
+      <div class="c-tabs" data-tabs data-component="Tabs">
+        <div class="c-tabs__list" role="tablist" aria-label="Zonas del evento">
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="true" aria-controls="zona-0" id="tab-zona-0">Spawn Point</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="zona-1" id="tab-zona-1" tabindex="-1">The Nexus</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="zona-2" id="tab-zona-2" tabindex="-1">Analog Arcade</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="zona-3" id="tab-zona-3" tabindex="-1">Main Arena</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="zona-4" id="tab-zona-4" tabindex="-1">Upgrade Hub</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="zona-5" id="tab-zona-5" tabindex="-1">Safe Zone</button>
+        </div>
+
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-0" aria-labelledby="tab-zona-0">
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — FOYER, NIVEL −1]</span></div>
+          <div><h3>Spawn Point</h3><p class="zone__where">Foyer · Nivel −1</p><p>Acreditación e ingreso. Pasás tu entrada por los molinetes digitales y tu perfil se sincroniza con la app del evento</p></div>
+        </div>
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-1" aria-labelledby="tab-zona-1" hidden>
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — PABELLÓN CENTRAL, SECTOR NORTE]</span></div>
+          <div><h3>The Nexus</h3><p class="zone__where">Pabellón central · Nivel −2 · Capacidad: 3000 personas en rotación</p><p>Estaciones de PC y consolas en islas. Partidas de 30 minutos y después, un cooldown</p></div>
+        </div>
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-2" aria-labelledby="tab-zona-2" hidden>
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — PABELLÓN CENTRAL, SECTOR SUR]</span></div>
+          <div><h3>The Analog Arcade</h3><p class="zone__where">Pabellón central · Nivel −2</p><p>Air hockey, metegoles, básquet de salón y juegos de mesa gigantes. Diversión fuera de la pantalla</p></div>
+        </div>
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-3" aria-labelledby="tab-zona-3" hidden>
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — AUDITORIO PRINCIPAL]</span></div>
+          <div><h3>Main Arena</h3><p class="zone__where">Auditorio principal · Nivel −2 · Capacidad: 800 personas</p><p>Escenario de esports: finales de los torneos y charlas con referentes de la industria</p></div>
+        </div>
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-4" aria-labelledby="tab-zona-4" hidden>
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — SALAS AUXILIARES 1 Y 2]</span></div>
+          <div><h3>The Upgrade Hub</h3><p class="zone__where">Salas auxiliares 1 y 2 · Nivel −2</p><p>Consultas rápidas para mejorar tu postura y acomodar tu setup para jugar más cómodo</p></div>
+        </div>
+        <div class="c-tabs__panel zone" role="tabpanel" id="zona-5" aria-labelledby="tab-zona-5" hidden>
+          <div class="c-ph c-ph--map"><span class="c-ph__label">[PLANO — ÁREA DE DESCANSO, NIVEL −1]</span></div>
+          <div><h3>The Safe Zone</h3><p class="zone__where">Área aislada · Nivel −1</p><p>Silencio, puffs, luz cálida y música tranquila para descansar la vista. Preparada para personas con TEA</p></div>
+        </div>
+      </div>
+      <p class="wf-note">NOTA · Pestañas: se cambian con clic o con las flechas del teclado</p>
+    </div>
+  </section>
+
+  <!-- 6. Actividades: carrusel -->
+  <section class="home-section" id="actividades" data-component="Section/Activities">
+    <div class="l-container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Actividades</p>
+          <h2>Jugá, movete y sumá puntos</h2>
+        </div>
+        <div class="c-carousel__controls" data-component="Carousel/Controls">
+          <button class="c-icon-button" type="button" data-carousel-prev aria-label="Ver actividades anteriores">←</button>
+          <span class="c-carousel__count" data-carousel-count aria-live="polite">1–3 de 12</span>
+          <button class="c-icon-button" type="button" data-carousel-next aria-label="Ver más actividades">→</button>
+        </div>
+      </div>
+
+      <div class="c-carousel" data-carousel data-component="Carousel">
+        <ul class="c-carousel__track" data-carousel-track>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — TORNEO]</span></div><span class="c-badge">Principal</span><h3>Torneos con Tactical Timeouts</h3><p>Entre partidas, dos minutos para que todo el público se pare y se mueva</p><p class="card__where">Main Arena</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — ESTACIÓN DE JUEGO]</span></div><span class="c-badge">Principal</span><h3>The Nexus Cooldowns</h3><p>Cada 30 minutos la pantalla se bloquea: caminás a un tótem, escaneás tu QR y seguís</p><p class="card__where">The Nexus</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — ESCENARIO]</span></div><span class="c-badge">Principal</span><h3>El Meta-Cast en vivo</h3><p>Charlas tipo podcast sobre salud mental, frustración y balance, con humor</p><p class="card__where">Main Arena</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — JUEGO EN EQUIPO]</span></div><span class="c-badge">Principal</span><h3>Hard Carry Co-Op</h3><p>Uno juega y el otro tiene las instrucciones: sólo ganan si se hablan</p><p class="card__where">The Nexus</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — DUELO]</span></div><span class="c-badge">Principal</span><h3>Beat the Streamer</h3><p>Con los puntos de la app subís a desafiar a un streamer en juegos de salón</p><p class="card__where">Analog Arcade</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — METEGOL]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Analog Arcade Freeplay</h3><p>Uso libre de air hockey, metegoles, pool y básquet</p><p class="card__where">Analog Arcade</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — CUBÍCULO]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Speedrun Challenge</h3><p>Gana el más rápido, pero si se te disparan las pulsaciones, perdés puntos</p><p class="card__where">Analog Arcade</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — PANEL DE LUCES]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Red Bull Reflex Challenge</h3><p>Un minuto para apretar la mayor cantidad de luces, de pie</p><p class="card__where">Analog Arcade</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — CÓDIGO ESCONDIDO]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Loot Box Hunt</h3><p>Búsqueda del tesoro: encontrá los QR escondidos y canjealos por premios</p><p class="card__where">Todo el evento</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — ESCRITORIO]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Setup Challenge</h3><p>Armá un escritorio de PC contra reloj y que un especialista evalúe tu ergonomía</p><p class="card__where">Upgrade Hub</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — PANTALLA DE PREGUNTAS]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Trivia Express</h3><p>Cinco preguntas rápidas sobre videojuegos y esports, con puntos extra</p><p class="card__where">Pasillos</p></li>
+          <li class="c-card c-card--activity"><div class="c-ph c-ph--thumb"><span class="c-ph__label">[FOTO — CONSOLAS]</span></div><span class="c-badge c-badge--outline">Complementaria</span><h3>Copa Cooperativa Local</h3><p>Microtorneos con equipos de personas que no se conocen entre sí</p><p class="card__where">Nexus y Arcade</p></li>
+        </ul>
+      </div>
+      <p class="wf-note">NOTA · Carrusel: flechas en computadora, deslizar con el dedo en el celular</p>
+    </div>
+  </section>
+
+  <!-- 7. Line-up -->
+  <section class="home-section home-section--alt" id="line-up" data-component="Section/LineUp">
+    <div class="l-container">
+      <p class="eyebrow">Line-up</p>
+      <h2>Quiénes van a estar</h2>
+
+      <h3 class="subhead">Profesionales</h3>
+      <ul class="cards-4">
+        <li class="c-card c-card--person reveal"><div class="c-ph c-ph--avatar"><span class="c-ph__label">[FOTO]</span></div><h4>Frankkaster y 9z Team</h4><p>Conferencia sobre disciplina y psicología deportiva</p></li>
+        <li class="c-card c-card--person reveal"><div class="c-ph c-ph--avatar"><span class="c-ph__label">[FOTO]</span></div><h4>Coscu, Goncho y Spreen</h4><p>Mesas redondas sobre sobreexposición y burnout</p></li>
+        <li class="c-card c-card--person reveal"><div class="c-ph c-ph--avatar"><span class="c-ph__label">[FOTO]</span></div><h4>Coaches de KRÜ Esports</h4><p>Clínica de análisis de partidas para jugadores amateurs</p></li>
+        <li class="c-card c-card--person reveal"><div class="c-ph c-ph--avatar"><span class="c-ph__label">[FOTO]</span></div><h4>Psicólogos en esports</h4><p>Autoevaluaciones de hábitos digitales en la Safe Zone</p></li>
+      </ul>
+
+      <h3 class="subhead">Marcas</h3>
+      <ul class="brands">
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>Logitech G · HyperX · Razer</strong><span>Setups ergonómicos</span></li>
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>Red Bull</strong><span>Main Arena y desafío de reflejos</span></li>
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>ASUS ROG</strong><span>Estaciones de The Nexus</span></li>
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>Nintendo Argentina</strong><span>Juego cooperativo de salón</span></li>
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>DEVA</strong><span>Juego limpio en competencias</span></li>
+        <li class="c-brand reveal"><div class="c-ph c-ph--logo"><span class="c-ph__label">[LOGO]</span></div><strong>UBA · ITBA</strong><span>Orientación vocacional</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. Cronograma: pestañas por día -->
+  <section class="home-section" id="cronograma" data-component="Section/Schedule">
+    <div class="l-container">
+      <p class="eyebrow">Cronograma</p>
+      <h2>Tres días, tres partidas</h2>
+      <p class="section-lead">Horarios de ejemplo para el wireframe</p>
+
+      <div class="c-tabs" data-tabs data-component="Tabs">
+        <div class="c-tabs__list" role="tablist" aria-label="Días del evento">
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="true" aria-controls="dia-0" id="tab-dia-0">Viernes 18</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="dia-1" id="tab-dia-1" tabindex="-1">Sábado 19</button>
+          <button class="c-tabs__tab" role="tab" type="button" aria-selected="false" aria-controls="dia-2" id="tab-dia-2" tabindex="-1">Domingo 20</button>
+        </div>
+        <div class="c-tabs__panel" role="tabpanel" id="dia-0" aria-labelledby="tab-dia-0">
+          <ul class="schedule">
+            <li><time>12:00 h</time><span>Apertura de puertas</span><em>Spawn Point</em></li>
+            <li><time>13:00 h</time><span>Copa Cooperativa Local</span><em>The Nexus</em></li>
+            <li><time>16:00 h</time><span>El Meta-Cast en vivo</span><em>Main Arena</em></li>
+            <li><time>18:00 h</time><span>Speedrun Challenge</span><em>Analog Arcade</em></li>
+            <li><time>20:00 h</time><span>Cierre del día</span><em>—</em></li>
+          </ul>
+        </div>
+        <div class="c-tabs__panel" role="tabpanel" id="dia-1" aria-labelledby="tab-dia-1" hidden>
+          <ul class="schedule">
+            <li><time>12:00 h</time><span>Apertura de puertas</span><em>Spawn Point</em></li>
+            <li><time>14:00 h</time><span>Torneo con Tactical Timeouts: fase de grupos</span><em>Main Arena</em></li>
+            <li><time>16:30 h</time><span>Beat the Streamer</span><em>Analog Arcade</em></li>
+            <li><time>18:00 h</time><span>Charla de 9z: disciplina y psicología deportiva</span><em>Main Arena</em></li>
+            <li><time>21:00 h</time><span>Cierre del día</span><em>—</em></li>
+          </ul>
+        </div>
+        <div class="c-tabs__panel" role="tabpanel" id="dia-2" aria-labelledby="tab-dia-2" hidden>
+          <ul class="schedule">
+            <li><time>12:00 h</time><span>Apertura de puertas</span><em>Spawn Point</em></li>
+            <li><time>13:00 h</time><span>Setup Challenge</span><em>Upgrade Hub</em></li>
+            <li><time>15:00 h</time><span>Loot Box Hunt: último canje</span><em>Stand principal</em></li>
+            <li><time>17:00 h</time><span>Final del torneo</span><em>Main Arena</em></li>
+            <li><time>20:00 h</time><span>Cierre del festival</span><em>—</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Ubicación y accesibilidad -->
+  <section class="home-section home-section--alt" id="ubicacion" data-component="Section/Location">
+    <div class="l-container two-col">
+      <div class="reveal">
+        <p class="eyebrow">Ubicación</p>
+        <h2>Centro de Convenciones Buenos Aires</h2>
+        <p>Av. Figueroa Alcorta 2099, Ciudad de Buenos Aires. Se entra por el foyer del nivel −1</p>
+        <a class="c-button c-button--secondary" href="https://www.google.com/maps/search/?api=1&amp;query=Centro+de+Convenciones+Buenos+Aires" target="_blank" rel="noopener noreferrer">Cómo llegar <span class="visually-hidden">(se abre en otra pestaña)</span></a>
+        <h3 class="subhead">Accesibilidad</h3>
+        <ul class="check-list">
+          <li>Rampas, ascensores y pasillos de 3 m libres</li>
+          <li>Intérpretes de LSA y subtitulado en vivo en las charlas</li>
+          <li>Audiodescripción en la Main Arena y teclados braille</li>
+          <li>Kits de reducción de ruido en la Safe Zone</li>
+        </ul>
+      </div>
+      <div class="c-ph c-ph--mapbig reveal"><span class="c-ph__label">[MAPA — CEC, AV. FIGUEROA ALCORTA 2099]</span></div>
+    </div>
+  </section>
+
+  <!-- 10. Preguntas frecuentes -->
+  <section class="home-section" id="preguntas" data-component="Section/FAQ">
+    <div class="l-container narrow">
+      <p class="eyebrow">Ayuda</p>
+      <h2>Preguntas frecuentes</h2>
+      <div class="c-accordion" data-component="Accordion">
+        <details class="c-accordion__item"><summary>¿Dónde veo mi entrada?</summary><p>En Mi cuenta, dentro de Mis entradas. Tocá tu avatar, arriba a la derecha, y abrí el QR de la entrada que quieras</p></details>
+        <details class="c-accordion__item"><summary>¿Cuántas entradas puedo comprar?</summary><p>Hasta 6 por compra, todas para el mismo paquete y la misma fecha</p></details>
+        <details class="c-accordion__item"><summary>¿Cómo funcionan los cooldowns?</summary><p>Después de 30 minutos de juego en The Nexus la pantalla se bloquea. Caminás hasta un tótem, escaneás tu QR y volvés a jugar</p></details>
+        <details class="c-accordion__item"><summary>¿Qué pasa si una fecha está agotada?</summary><p>Te avisamos cuando la elegís y podés elegir otra sin perder lo que ya cargaste</p></details>
+        <details class="c-accordion__item"><summary>¿El evento es accesible?</summary><p>Sí. Hay rampas, ascensores, intérpretes de LSA, subtitulado, audiodescripción y una zona preparada para personas con TEA</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Llamado final -->
+  <section class="home-section home-section--dark cta-final" id="cta-final" data-component="Section/CTA">
+    <div class="l-container cta-final__inner reveal">
+      <div class="c-obj3d c-obj3d--small" data-parallax="0.2"><span class="c-obj3d__label">[OBJETO 3D — CONSOLA]</span></div>
+      <div>
+        <h2>¿Estás listo para desbloquear tu mejor versión?</h2>
+        <p>Elegí tu paquete, tu fecha y cuántos son en tu equipo. Tu entrada queda guardada en tu cuenta</p>
+        <a class="c-button c-button--primary c-button--inverse" href="#paquetes" data-action="get-ticket">Obtener ticket</a>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ======================= PANTALLA: INICIAR SESIÓN ======================= -->
+<section class="screen screen--auth" id="screen-login" data-screen="login" aria-labelledby="login-title" hidden>
+  <div class="auth">
+    <div class="auth__brand" data-component="Auth/BrandPanel">
+      <a class="c-logo c-logo--big" href="#inicio">&lt;RESET&gt;</a>
+      <p>Iniciá sesión para obtener tu ticket y tener tu entrada siempre a mano</p>
+      <div class="c-ph c-ph--brand"><span class="c-ph__label">[IMAGEN — AMBIENTE DEL EVENTO]</span></div>
+    </div>
+
+    <div class="auth__panel">
+      <a class="c-backlink" href="#inicio">← Volver al inicio</a>
+      <h1 id="login-title">Iniciar sesión</h1>
+      <div class="c-alert c-alert--info" data-flash hidden role="status"></div>
+
+      <div class="social" aria-label="Iniciar sesión con otra cuenta">
+        <button class="c-button c-button--social" type="button" data-social="Google">[G] Google</button>
+        <button class="c-button c-button--social" type="button" data-social="Apple">[A] Apple</button>
+        <button class="c-button c-button--social" type="button" data-social="Discord">[D] Discord</button>
+      </div>
+      <p class="divider"><span>o con tu mail</span></p>
+
+      <form class="c-form" id="form-login" novalidate data-component="Form/Login">
+        <div class="c-field">
+          <label for="login-email">Mail</label>
+          <input id="login-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="login-email-error">
+          <p class="c-field__error" id="login-email-error" hidden></p>
+        </div>
+        <div class="c-field">
+          <label for="login-pass">Contraseña</label>
+          <div class="c-field__group">
+            <input id="login-pass" name="password" type="password" autocomplete="current-password" aria-describedby="login-pass-error">
+            <button class="c-field__toggle" type="button" data-toggle-pass="login-pass" aria-pressed="false">Mostrar</button>
+          </div>
+          <p class="c-field__error" id="login-pass-error" hidden></p>
+        </div>
+        <button class="c-button c-button--primary c-button--block" type="submit">Ingresar</button>
+      </form>
+
+      <p class="auth__switch">¿No tenés cuenta? <a href="#registro">Registrate</a></p>
+      <p class="wf-note">DATO DE PRUEBA · demo@reset.gg · contraseña reset1234</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PANTALLA: REGISTRARSE ========================= -->
+<section class="screen screen--auth" id="screen-registro" data-screen="registro" aria-labelledby="reg-title" hidden>
+  <div class="auth">
+    <div class="auth__brand">
+      <a class="c-logo c-logo--big" href="#inicio">&lt;RESET&gt;</a>
+      <p>Creá tu cuenta: ahí vas a encontrar tus entradas cuando las necesites</p>
+      <div class="c-ph c-ph--brand"><span class="c-ph__label">[IMAGEN — AMBIENTE DEL EVENTO]</span></div>
+    </div>
+
+    <div class="auth__panel">
+      <a class="c-backlink" href="#login">← Volver a Iniciar sesión</a>
+      <h1 id="reg-title">Crear cuenta</h1>
+      <div class="c-alert c-alert--info" data-flash hidden role="status"></div>
+
+      <form class="c-form" id="form-registro" novalidate data-component="Form/Register">
+        <div class="c-field">
+          <label for="reg-name">Nombre</label>
+          <input id="reg-name" name="name" type="text" autocomplete="given-name" aria-describedby="reg-name-error">
+          <p class="c-field__error" id="reg-name-error" hidden></p>
+        </div>
+        <div class="c-field">
+          <label for="reg-email">Mail</label>
+          <input id="reg-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="reg-email-error">
+          <p class="c-field__error" id="reg-email-error" hidden></p>
+        </div>
+        <div class="c-field">
+          <label for="reg-pass">Contraseña</label>
+          <div class="c-field__group">
+            <input id="reg-pass" name="password" type="password" autocomplete="new-password" aria-describedby="reg-pass-hint reg-pass-error">
+            <button class="c-field__toggle" type="button" data-toggle-pass="reg-pass" aria-pressed="false">Mostrar</button>
+          </div>
+          <p class="c-field__hint" id="reg-pass-hint">Mínimo 8 caracteres</p>
+          <p class="c-field__error" id="reg-pass-error" hidden></p>
+        </div>
+        <div class="c-field">
+          <label for="reg-pass2">Repetir contraseña</label>
+          <input id="reg-pass2" name="password2" type="password" autocomplete="new-password" aria-describedby="reg-pass2-error">
+          <p class="c-field__error" id="reg-pass2-error" hidden></p>
+        </div>
+        <button class="c-button c-button--primary c-button--block" type="submit">Crear cuenta</button>
+      </form>
+
+      <p class="auth__switch">¿Ya tenés cuenta? <a href="#login">Iniciá sesión</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PANTALLA: PAQUETES ========================= -->
+<section class="screen screen--flow" id="screen-paquetes" data-screen="paquetes" aria-labelledby="pq-title" hidden>
+  <div class="l-container flow">
+    <ol class="c-stepper" data-stepper="1" aria-label="Pasos de la compra" data-component="Stepper"></ol>
+    <a class="c-backlink" href="#inicio">← Volver al inicio</a>
+    <h1 id="pq-title">Elegí tu paquete</h1>
+    <p class="flow__lead">Cada paquete vale por un día. Precios de ejemplo, por persona</p>
+    <div class="c-alert c-alert--info" data-flash hidden role="status"></div>
+
+    <div class="options options--3" data-options="pack" role="list"></div>
+    <p class="wf-note">NOTA · Tocar una tarjeta la elige y pasa a Fecha (como en el wireflow)</p>
+  </div>
+</section>
+
+<!-- =========================== PANTALLA: FECHA =========================== -->
+<section class="screen screen--flow" id="screen-fecha" data-screen="fecha" aria-labelledby="fe-title" hidden>
+  <div class="l-container flow">
+    <ol class="c-stepper" data-stepper="2" aria-label="Pasos de la compra"></ol>
+    <a class="c-backlink" href="#paquetes">← Volver a Paquete</a>
+    <h1 id="fe-title">Elegí tu fecha</h1>
+    <p class="flow__lead" data-summary-line></p>
+    <div class="c-alert c-alert--error" data-error hidden role="alert"></div>
+
+    <div class="options options--3" data-options="date" role="list"></div>
+    <p class="wf-note">NOTA · El sábado está agotado a propósito: muestra la rama "¿Fecha disponible? No" del userflow</p>
+  </div>
+</section>
+
+<!-- ========================== PANTALLA: CANTIDAD ========================== -->
+<section class="screen screen--flow" id="screen-cantidad" data-screen="cantidad" aria-labelledby="ca-title" hidden>
+  <div class="l-container flow">
+    <ol class="c-stepper" data-stepper="3" aria-label="Pasos de la compra"></ol>
+    <a class="c-backlink" href="#fecha">← Volver a Fecha</a>
+    <h1 id="ca-title">¿Cuántas personas son en tu equipo?</h1>
+    <p class="flow__lead" data-summary-line></p>
+
+    <div class="qty" data-component="QuantityStepper">
+      <div class="qty__box">
+        <button class="c-icon-button c-icon-button--lg" type="button" data-qty="-1" aria-label="Restar una persona">−</button>
+        <output class="qty__value" id="qty-value" aria-live="polite">1</output>
+        <button class="c-icon-button c-icon-button--lg" type="button" data-qty="1" aria-label="Sumar una persona">+</button>
+      </div>
+      <p class="qty__hint">Hasta 6 personas por compra · Subtotal: <strong data-qty-subtotal>$0</strong></p>
+    </div>
+    <div class="c-alert c-alert--error" data-error hidden role="alert"></div>
+
+    <div class="flow__actions">
+      <button class="c-button c-button--primary" type="button" data-action="to-checkout">Finalizar compra</button>
+    </div>
+    <p class="wf-note">NOTA · El domingo quedan 4 lugares: con 5 o más se ve la rama "¿Cupo disponible? No"</p>
+  </div>
+</section>
+
+<!-- =========================== PANTALLA: COMPRA =========================== -->
+<section class="screen screen--flow" id="screen-compra" data-screen="compra" aria-labelledby="co-title" hidden>
+  <div class="l-container flow">
+    <ol class="c-stepper" data-stepper="4" aria-label="Pasos de la compra"></ol>
+    <a class="c-backlink" href="#cantidad">← Volver a Cantidad</a>
+    <h1 id="co-title">Finalizar compra</h1>
+
+    <div class="checkout">
+      <form class="c-form checkout__form" id="form-pago" novalidate data-component="Form/Payment">
+        <div class="c-alert c-alert--error" data-error hidden role="alert"></div>
+
+        <fieldset class="c-field">
+          <legend>Medio de pago</legend>
+          <div class="pay-methods">
+            <label class="c-radio-card"><input type="radio" name="method" value="credito" checked><span>[▭] Tarjeta de crédito</span></label>
+            <label class="c-radio-card"><input type="radio" name="method" value="debito"><span>[▭] Tarjeta de débito</span></label>
+            <label class="c-radio-card"><input type="radio" name="method" value="billetera"><span>[◫] Billetera virtual</span></label>
+          </div>
+        </fieldset>
+
+        <div class="card-fields" data-card-fields>
+          <div class="c-field">
+            <label for="pay-number">Número de tarjeta</label>
+            <input id="pay-number" name="number" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19" aria-describedby="pay-number-error">
+            <p class="c-field__error" id="pay-number-error" hidden></p>
+          </div>
+          <div class="field-row">
+            <div class="c-field">
+              <label for="pay-exp">Vencimiento</label>
+              <input id="pay-exp" name="exp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5" aria-describedby="pay-exp-error">
+              <p class="c-field__error" id="pay-exp-error" hidden></p>
+            </div>
+            <div class="c-field">
+              <label for="pay-cvv">Código de seguridad</label>
+              <input id="pay-cvv" name="cvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" aria-describedby="pay-cvv-hint pay-cvv-error">
+              <p class="c-field__hint" id="pay-cvv-hint">Los 3 números del dorso</p>
+              <p class="c-field__error" id="pay-cvv-error" hidden></p>
+            </div>
+          </div>
+          <div class="c-field">
+            <label for="pay-holder">Nombre del titular</label>
+            <input id="pay-holder" name="holder" type="text" autocomplete="cc-name" aria-describedby="pay-holder-error">
+            <p class="c-field__error" id="pay-holder-error" hidden></p>
+          </div>
+          <p class="wf-note">DATO DE PRUEBA · Una tarjeta terminada en 0000 se rechaza: rama "¿Pago válido? No"</p>
+        </div>
+
+        <div class="wallet" data-wallet hidden>
+          <div class="c-ph c-ph--wallet"><span class="c-ph__label">[BILLETERA VIRTUAL — SE ABRE AL CONFIRMAR]</span></div>
+          <p>Al tocar Confirmar y pagar te llevamos a tu billetera para aprobar el pago</p>
+        </div>
+      </form>
+
+      <aside class="c-summary checkout__summary" aria-labelledby="summary-title" data-component="OrderSummary">
+        <h2 id="summary-title">Resumen del pedido</h2>
+        <dl class="c-summary__list" data-summary></dl>
+        <p class="c-summary__total">Total <strong data-total>$0</strong></p>
+        <button class="c-button c-button--primary c-button--block" type="submit" form="form-pago" data-pay-button>Confirmar y pagar</button>
+        <p class="c-summary__note">Simulación: no se cobra nada</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== PANTALLA: ENTRADA (QR) ======================== -->
+<section class="screen screen--flow" id="screen-entrada" data-screen="entrada" aria-labelledby="en-title" hidden>
+  <div class="l-container flow narrow">
+    <div class="c-alert c-alert--success" data-success hidden role="status">
+      <strong>¡Compra confirmada!</strong> Tu entrada ya está guardada en Mi cuenta
+    </div>
+    <h1 id="en-title">Tu entrada</h1>
+
+    <article class="c-ticket" data-component="Ticket">
+      <div class="c-ticket__qr">
+        <canvas class="c-qr" width="232" height="232" data-qr role="img" aria-label="Código QR de la entrada"></canvas>
+        <p class="c-qr__label">[QR SIMULADO]</p>
+      </div>
+      <dl class="c-ticket__data" data-ticket-data></dl>
+    </article>
+    <p class="flow__lead">Mostrá este QR en los molinetes del Spawn Point. También lo usás en los tótems de cooldown</p>
+
+    <div class="flow__actions flow__actions--split">
+      <a class="c-button c-button--secondary" href="#inicio">Volver al inicio</a>
+      <a class="c-button c-button--primary" href="#cuenta" data-scroll-to="mis-entradas">Ver mis entradas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PANTALLA: MI CUENTA ========================= -->
+<section class="screen screen--flow" id="screen-cuenta" data-screen="cuenta" aria-labelledby="cu-title" hidden>
+  <div class="l-container flow">
+    <a class="c-backlink" href="#inicio">← Volver al inicio</a>
+    <h1 id="cu-title">Mi cuenta</h1>
+
+    <div class="account">
+      <section class="c-card account__profile" aria-labelledby="perfil-title">
+        <h2 id="perfil-title">Tus datos</h2>
+        <dl class="account__data">
+          <dt>Nombre</dt><dd data-user-name>—</dd>
+          <dt>Mail</dt><dd data-user-email>—</dd>
+        </dl>
+        <button class="c-button c-button--secondary" type="button" data-action="logout">Cerrar sesión</button>
+      </section>
+
+      <section class="account__tickets" id="mis-entradas" aria-labelledby="mis-entradas-title">
+        <h2 id="mis-entradas-title">Mis entradas</h2>
+        <ul class="ticket-list" data-ticket-list></ul>
+        <div class="c-empty" data-empty hidden data-component="EmptyState">
+          <div class="c-ph c-ph--icon"><span class="c-ph__label">[ÍCONO]</span></div>
+          <h3>Todavía no tenés entradas</h3>
+          <p>Cuando compres, tu QR aparece acá</p>
+          <a class="c-button c-button--primary" href="#paquetes" data-action="get-ticket">Obtener ticket</a>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================================ FOOTER ================================ -->
+<footer class="c-footer" data-component="Footer">
+  <div class="l-container c-footer__grid">
+    <div>
+      <a class="c-logo" href="#inicio">&lt;RESET&gt;</a>
+      <p>Festival gamer · 18, 19 y 20 de septiembre de 2026 · CEC, Buenos Aires</p>
+      <p>reset.gg</p>
+    </div>
+    <nav aria-label="Enlaces del pie">
+      <ul class="c-footer__links">
+        <li><a href="#informacion">Información</a></li>
+        <li><a href="#cronograma">Cronograma</a></li>
+        <li><a href="#preguntas">Preguntas frecuentes</a></li>
+        <li><a href="#cuenta">Mi cuenta</a></li>
+      </ul>
+    </nav>
+    <div class="c-footer__wf">
+      <p class="c-footer__wf-title">Herramientas del wireframe</p>
+      <button class="c-button c-button--secondary c-button--sm" type="button" data-action="toggle-notes" aria-pressed="true">Anotaciones: visibles</button>
+      <button class="c-button c-button--ghost c-button--sm" type="button" data-action="reset-demo">Reiniciar demo</button>
+    </div>
+  </div>
+  <p class="l-container c-footer__credit">Wireframe académico · Equipo: Santino Mosca Jacob, Rodrigo Masek y Facundo De Vichenzo · 2026</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

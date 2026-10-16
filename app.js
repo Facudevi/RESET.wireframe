@@ -920,17 +920,7 @@
     xpFill.style.width = (p * 100).toFixed(1) + '%';
     xpLabel.textContent = p >= 0.98 ? 'Nivel 10 · ¡completo!' : 'Nivel ' + Math.floor(p * 10) + ' de 10';
 
-    if (reduceMotion) return;
-    var vh = window.innerHeight;
-    parallaxEls.forEach(function (el) {
-      var r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) return;
-      var factor = Number(el.getAttribute('data-parallax')) || 0.2;
-      var offset = (r.top + r.height / 2 - vh / 2) / vh;      // −1 … 1 aprox.
-      var rot = Math.max(-28, Math.min(28, offset * -120 * factor));   // nunca de canto
-      el.style.setProperty('--rot', rot.toFixed(1) + 'deg');
-      el.style.setProperty('--shift', (offset * 80 * factor).toFixed(1) + 'px');
-    });
+    // Objetos 3D estáticos: ya no giran ni se desplazan con el scroll.
   }
   window.addEventListener('scroll', function () {
     if (ticking) return;
@@ -962,7 +952,6 @@
     $('[data-story-battery]').style.width = step.getAttribute('data-battery') + '%';
     $('[data-story-label]').textContent = step.getAttribute('data-label');
     $('[data-story-count]').textContent = (i + 1) + ' / ' + steps.length;
-    if (!reduceMotion) storyObj.style.setProperty('--rot', ((i - 2) * 14) + 'deg');
   }
   if ('IntersectionObserver' in window) {
     var storyObs = new IntersectionObserver(function (entries) {
